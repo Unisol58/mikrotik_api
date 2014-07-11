@@ -45,6 +45,10 @@ require 'mikrotik/ppp/mapi_ppp_secret.php';
 require 'mikrotik/ppp/mapi_ppp_aaa.php';
 require 'mikrotik/ppp/mapi_ppp_active.php';
 
+//load child class routing
+require 'mikrotik/routing/mapi_routing.php';
+require 'mikrotik/routing/mapi_routing_pim.php';
+
 //load child class system
 require 'mikrotik/system/mapi_system.php';
 require 'mikrotik/system/mapi_system_scheduler.php';
@@ -111,6 +115,15 @@ class Mikrotik_Api {
      */
     public function ppp(){
         return new Mapi_Ppp($this->param);
+    }    
+
+    /**
+     * This method for call class Mapi Routing
+     * @access public
+     * @return Object of Mapi_Routing
+     */
+    public function routing(){
+        return new Mapi_Routing($this->param);
     }
     
     /**

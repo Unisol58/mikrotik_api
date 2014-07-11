@@ -39,8 +39,8 @@ class Mapi_Core {
          *
          * @var type int
          */
-	private $error_no;				// Variable for storing connection error number, if any
-	/**
+	    private $error_no;				// Variable for storing connection error number, if any
+	    /**
          *
          * @var type string
          */

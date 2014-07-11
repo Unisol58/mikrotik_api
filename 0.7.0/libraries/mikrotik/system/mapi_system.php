@@ -59,6 +59,21 @@ class Mapi_System extends Mapi_Query {
         );
         return $this->query($input);
     }
+
+    /**
+     * Export config script
+     * @param  string $name name of the script file
+     * @return type array
+     */
+    public function export($name)
+    {
+        $input = array(
+            'command' => '/export',
+            'file'    => $name
+        );
+
+        return $this->query($input);
+    }
     
     /**
      * This method is used to system backup load
@@ -96,6 +111,40 @@ class Mapi_System extends Mapi_Query {
     public function get_all_routerboard(){
         return $this->query('/system/routerboard/getall'); 
     }
+
+
+    public function check_for_update()
+    {
+        return $this->query('/system/package/update/check-for-update');
+    }
+
+    /**
+     * Upgrade RouterOS version
+     */
+    public function upgrade()
+    {
+        return $this->query('/system/package/update/upgrade');
+    }
+
+    /**
+     * Upgrade routerboard firmware version
+     * @return [type] array
+     */
+    public function firmware_upgrade()
+    {
+        return $this->query('/system/routerboard/upgrade');
+    }
+
+
+    /**
+     * Print current routerOS version and latest update if available
+     * @return type array
+     */
+    public function version_print()
+    {
+        return $this->query('/system/package/update/print');
+    }
+
     /**
      * This method is used to system reset configuration
      * @param type $keep_users string (yes or no)
@@ -111,5 +160,10 @@ class Mapi_System extends Mapi_Query {
                    'skip-backup'        => $skip_backup
         );
         return $this->query($input);
+    }
+
+    public function reboot()
+    {
+        return $this->query('/system/reboot');
     }
 }
