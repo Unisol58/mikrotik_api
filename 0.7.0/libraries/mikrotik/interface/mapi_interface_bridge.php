@@ -67,6 +67,20 @@ class Mapi_Interface_Bridge extends Mapi_Query {
         );
         return $this->query($input);
     }
+
+    
+    /**
+     * This method used for add new port to bridge
+     * @param type $param array
+     * @return type array
+     */
+    public function add_port($param){
+       $input = array(
+            'command'       => '/interface/bridge/port/add',
+         );
+       $out = array_merge($input, $param);
+       return $this->query($out);
+    }
     
     /**
      * This method used for get all interface bridge

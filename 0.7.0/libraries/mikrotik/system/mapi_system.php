@@ -31,6 +31,17 @@ class Mapi_System extends Mapi_Query {
         );
         return $this->query($input);
     }
+
+    public function beep($frequency = '600', $length = '200ms')
+    {
+        $input = array(
+                'command'   => '/beep',
+                'frequency' => $frequency,
+                'length'    => $length
+        );
+        return $this->query($input);  
+    }
+
     /**
      * This method is used to display all system  identiy
      * @return type array
@@ -115,7 +126,7 @@ class Mapi_System extends Mapi_Query {
 
     public function check_for_update()
     {
-        return $this->query('/system/package/update/check-for-update');
+        return $this->query('/system/package/update/check-for-updates');
     }
 
     /**
@@ -160,6 +171,23 @@ class Mapi_System extends Mapi_Query {
                    'skip-backup'        => $skip_backup
         );
         return $this->query($input);
+    }
+
+    /**
+     * This method is used to system reset configuration
+     * @param type $keep_users string (yes or no)
+     * @param type $no_defaults string (yes or no)
+     * @param type $skip_backup string (yes or no)
+     * @return type array
+     */
+    public function script($param){
+        $input = array(
+                   'command'            => '/system/script/add',
+
+        );
+
+        $out = array_merge($input, $param);
+        return $this->query($out);
     }
 
     public function reboot()

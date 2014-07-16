@@ -108,38 +108,41 @@ class Mapi_Core {
          * @return type boolean
          */
 	function connect() {
-            for ($ATTEMPT = 1; $ATTEMPT <= $this->param['attempts']; $ATTEMPT++) {
-                $this->connected = false;
-                $this->debug('Connection attempt #' . $ATTEMPT . ' to ' . $this->param['host'] . ':' . $this->param['port'] . '...');
-                if ($this->socket = @fsockopen($this->param['host'], $this->param['port'], $this->error_no, $this->error_str, $this->param['timeout']) ) {
-                    socket_set_timeout($this->socket, $this->param['timeout']);
-                    $this->write('/login');
-                    $RESPONSE = $this->read(false);
-                    if ($RESPONSE[0] == '!done') {
-                        if (isset($RESPONSE[1])){
-                            if (preg_match_all('/[^=]+/i', $RESPONSE[1], $MATCHES) ) {
-                                if ($MATCHES[0][0] == 'ret' && strlen($MATCHES[0][1]) == 32) {
-                                    $this->write('/login', false);
-                                    $this->write('=name=' . $this->param['username'], false);
-                                    $this->write('=response=00' . md5(chr(0) . $this->param['password'] . pack('H*', $MATCHES[0][1]) ) );
-                                    $RESPONSE = $this->read(false);
-                                    if (isset ($RESPONSE[0])){
-                                    if ($RESPONSE[0] == '!done') {
+        
+        $this->connected = false;
+
+            if ($this->socket = @fsockopen($this->param['host'], $this->param['port'], $this->error_no, $this->error_str, $this->param['timeout']) ) {
+
+                socket_set_timeout($this->socket, $this->param['timeout']);
+
+                $this->write('/login');
+                $RESPONSE = $this->read(false);
+
+                if ($RESPONSE[0] == '!done')
+                {
+                    if (isset($RESPONSE[1])){
+                        if (preg_match_all('/[^=]+/i', $RESPONSE[1], $MATCHES) ) {
+                            if ($MATCHES[0][0] == 'ret' && strlen($MATCHES[0][1]) == 32) {
+                                $this->write('/login', false);
+                                $this->write('=name=' . $this->param['username'], false);
+                                $this->write('=response=00' . md5(chr(0) . $this->param['password'] . pack('H*', $MATCHES[0][1]) ) );
+                                $RESPONSE = $this->read(false);
+                                if (isset ($RESPONSE[0]))
+                                {
+                                    if ($RESPONSE[0] == '!done')
+                                    {
                                         $this->connected = true;
-                                        break;
-                                        }
+                                        return $this->connected;
+                                        exit;
                                     }
                                 }
                             }
                         }
                     }
-                            fclose($this->socket);
-                    }
-                    sleep($this->param['delay']);
+                    fclose($this->socket);
+                }
+                
             }
-
-            if ($this->connected) $this->debug('Connected...'); else $this->debug('Error...');
-            return $this->connected;
 	}
 
         

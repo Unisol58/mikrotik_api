@@ -140,6 +140,14 @@ class Mapi_Interfaces {
     public function pptp_server(){
         return new Mapi_Interface_Pptp_Server($this->param);
     }
+
+    /**
+     * This method used call class Mapi_Interface_Wireless
+     * @return Mapi_Ip
+     */
+    public function wireless(){
+        return new Mapi_Interface_Wireless($this->param);
+    }
     
 }
 

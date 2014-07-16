@@ -1,6 +1,6 @@
 <?php
 /**
- * Description of Mapi_Ppp_Aaa
+ * Description of Mapi_Routing_Pim
  *
  * @author      Priit Kukk
  * @copyright   Copyright (c) 2014, Priit Kukk
@@ -20,7 +20,7 @@ class Mapi_Routing_Pim extends Mapi_Query {
     }
     
     /**
-     * This method is used to display all ppp aaa
+     * This method is used add pim interface
      * @return type array
      */
     public function add_pim_interface($param){
@@ -79,7 +79,7 @@ class Mapi_Routing_Pim extends Mapi_Query {
      * 
      */
     public function get_all_interfaces(){
-         return $this->query('/routing/pim/interface/getall');
+        return $this->query('/routing/pim/interface/getall');
     }  
 
     /**

@@ -20,6 +20,7 @@ require 'mikrotik/interface/mapi_interface_ppp_client.php';
 require 'mikrotik/interface/mapi_interface_ppp_server.php';
 require 'mikrotik/interface/mapi_interface_pptp_client.php';
 require 'mikrotik/interface/mapi_interface_pptp_server.php';
+require 'mikrotik/interface/mapi_interface_wireless.php';
 require 'mikrotik/interface/mapi_interfaces.php';
 
 //load child class ip
@@ -48,6 +49,9 @@ require 'mikrotik/ppp/mapi_ppp_active.php';
 //load child class routing
 require 'mikrotik/routing/mapi_routing.php';
 require 'mikrotik/routing/mapi_routing_pim.php';
+
+//load child class user
+require 'mikrotik/user/mapi_user.php';
 
 //load child class system
 require 'mikrotik/system/mapi_system.php';
@@ -81,13 +85,23 @@ class Mikrotik_Api {
     
     function __construct($param=array()) {
         $this->CI = & get_instance();
-        $param_config=$this->CI->config->item('mikrotik');
-        
-        if (isset($param_config) && is_array($param_config)){
+        //$param_config=$this->CI->config->item('mikrotik');
+
+        $param['port'] = '8728';
+        $param['debug'] = TRUE;
+        $param['attempts'] = 1;
+        $param['delay'] = 0;
+        $param['timeout'] = 1;
+
+        if (isset($param_config) && is_array($param_config))
+        {
             $this->param = $param_config;
-        } else {
-             $this->param = $param;
         }
+        else
+        {
+            $this->param = $param;
+        }
+       
     }
     
     /**
@@ -124,6 +138,15 @@ class Mikrotik_Api {
      */
     public function routing(){
         return new Mapi_Routing($this->param);
+    }    
+
+    /**
+     * This method for call class Mapi User
+     * @access public
+     * @return Object of Mapi_User
+     */
+    public function user(){
+        return new Mapi_User($this->param);
     }
     
     /**
